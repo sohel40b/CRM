@@ -17,6 +17,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/login', [App\Http\Controllers\AdminAuthController::class, 'index'])->name('admin.login');
+    Route::post('/login', [App\Http\Controllers\AdminAuthController::class, 'store'])->name('admin.post.login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::group(['middleware' => 'admin.auth'], function () {
+        Route::get('/home', [App\Http\Controllers\AdminAuthController::class, 'show'])->name('admin.home');
+        Route::post('/logout', [App\Http\Controllers\AdminAuthController::class, 'logout'])->name('admin.logout');
+    });
+});

@@ -8,13 +8,16 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
+                    @if (session('success'))
                         <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
+                            {{ session('success') }}
+                            @php
+                                Session::forget('success');
+                            @endphp
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    Welcome, {{ auth()->guard('admin')->user()->name }}
                 </div>
             </div>
         </div>

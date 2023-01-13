@@ -8,7 +8,15 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    @if (session('success'))
+                        <div class="alert alert-danger" role="alert">
+                            {{ session('success') }}
+                            @php
+                                Session::forget('success');
+                            @endphp
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('admin.post.login') }}">
                         @csrf
 
                         <div class="row mb-3">
